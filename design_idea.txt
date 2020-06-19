@@ -1,0 +1,15 @@
+第一个模块是提示信息专用模块 Recorder。实现的是在用户输入明细之前，输出类别编码和类别名称的对应提示。 也就是说专门用一个类来打印提示信息。
+
+第二个模块是用户输入收支明细后识别为可用数据类型，这个专门用一个类 Income_Expenses_Info 来存储信息。其中包含了是否为收入或支出，收入或支出的类别，时间，金额以及备注信息的变量声明。并且该类中重载了括号运算符，用于将字符串转换为可用数据类型，过程中，首先先将全部的非空格word，识别出来，然后对每一个word进行处理转换，其中比较特殊的是时间。需要用特殊函数 splite_line 分割为年月日三个字符串组成的字符串数组。然后对该数组的每一个元素进行处理。与第二个功能衔接。声明了两个友元函数，分别是 friend std::ostream &operator<<(std::ostream &cout, Income_Expenses_Info &info) 为打印数据和 friend std::ofstream &operator<<(std::ofstream &cout, Income_Expenses_Info &info) 为文件保存。
+
+第三个模块是为了进行保存数据到文件所编写的一个模块函数 info_list_to_file ，实现了将数据列表 std::vector<Income_Expenses_Info> info_list 保存到文件 filename 中。
+
+以上三个模块已经实现了第一个功能及输入信息的存储。
+
+第四个模块是为了实现文件读取到内存所编写的一个模块函数 file_to_info_list ，实现对文件 filename 中的内容进行读取并保存为 std::vector<Income_Expenses_Info> 类型输出。
+
+第五个模块实现了数据的统计汇总，为此又声明了一个类 Info_Statistics。其中存储了两个主要变量。第一个是时间 time。那第二个就是全部的与时间对应数据列表 std::vector<Income_Expenses_Info> info_list_statistics。同时声明了函数get_from_time，将时间的字符串比如“2020-1”和已有的数据列表传入，使用穷举的方法对全部的数据进行扫描，并对比时间，如果时间保持一致。那么统计汇总并把它保存至数据集 info_list_statistics 中。同时也声明了打印函数，将统计汇总信息全部打印。并且声明了函数用于显示与时间对应的全部数据信息。同时声明了函数get_from_category，将类别的字符串比如 “生活费”和已有的数据列表传入，使用穷举的方法对全部的数据进行扫描，并对比类别，如果保持一致。那么统计汇总并把它保存至数据集 info_list_statistics 中。信息打印实现一样，只是不再提示具体时间是多少。
+
+以上第四个和第五个模块实现了第二，三个功能。
+
+一个是main函数。实现了提示信息类的调用，用于提示信息。信息输入的存储调用。保存到文件。同时把文件再读取到内存。之后是查询信息的功能。数据的输入使用使用getline。如果不需要使用该功能时可以不输入直接回车便可停止停止该功能。
